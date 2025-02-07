@@ -53,7 +53,7 @@ yarn build
 yarn start
 ```
 
-## Project Structure
+<!-- ## Project Structure
 ```
 ├── src/
 │   ├── config/
@@ -73,7 +73,7 @@ yarn start
 ├── package.json
 ├── README.md
 ├── tsconfig.json
-```
+``` -->
 
 <!-- ## API Endpoints
 Example API endpoints:
