@@ -98,11 +98,8 @@ Example API endpoints:
 - [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) (for rate limiting)
 - [xss-clean](https://www.npmjs.com/package/xss-clean) (to prevent XSS attacks)
 
-## License
-This project is licensed under the MIT License.
-
 ## Contact
-For any questions or to obtain the `.env` file and Prisma schema, please contact the author.
+For any questions or to obtain the Prisma schema, please contact the author.
 
 ---
 
