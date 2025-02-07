@@ -40,12 +40,17 @@ The `prisma/schema.prisma` file is not included in the repository. Please contac
 To run the server in development mode:
 ```sh
 npm run dev
+# or with yarn
+yarn dev
 ```
 
-To build the server in production mode:
+To run the server in production mode:
 ```sh
 npm run build
 npm start
+# or with yarn
+yarn build
+yarn start
 ```
 
 ## Project Structure
