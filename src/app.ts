@@ -10,11 +10,15 @@ import loggerMiddleware from "./middlewares/loggerMiddleware";
 import errorMiddleware from "./middlewares/errorMiddleware";
 import limiter from "./middlewares/limiter";
 import helmet from "helmet";
+import xssClean from "xss-clean";
+import sanitizeMiddleware from "./middlewares/sanitizeMiddleware";
 
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(xssClean());
+app.use(sanitizeMiddleware);
 app.use(express.json());
 app.use(loggerMiddleware);
 app.use(limiter);
