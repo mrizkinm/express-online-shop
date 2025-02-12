@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
-import UserService from "../services/userService";
-import userValidation from "../validations/userValidation";
+import { UserService } from "../services/userService";
+import { UserValidation } from "../validations/userValidation";
 
-class UserController {
+export class UserController {
 
-  async login(req: Request, res: Response, next: NextFunction) {
+  static async login(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = userValidation.login.safeParse(req.body);
+      const result = UserValidation.login.safeParse(req.body);
 
       if (!result.success) {
         const errors = result.error.flatten().fieldErrors;
@@ -30,24 +30,92 @@ class UserController {
     }
   }
 
-  async getAllUsers(req: Request, res: Response) {
+  static async logout(req: Request, res: Response, next: NextFunction) {
     try {
-      const users = await UserService.getAllUsers();
-      res.json(users);
+      const result = UserValidation.logout.safeParse(req.body);
+
+      if (!result.success) {
+        const errors = result.error.flatten().fieldErrors;
+  
+        // Ubah format menjadi { fieldName: "Error message" }
+        const simplifiedErrors = Object.fromEntries(
+          Object.entries(errors).map(([key, value]) => [key, value?.[0] || 'Invalid value'])
+        );
+  
+        res.status(400).json({ errors: simplifiedErrors });
+      }
+
+      const response = await UserService.logout(req.body);
+      
+      res.json(response);
     } catch (error) {
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   }
 
-  async createUser(req: Request, res: Response) {
+  static async register(req: Request, res: Response, next: NextFunction) {
     try {
-      const { name, email, password } = req.body;
-      const user = await UserService.createUser(name, email, password);
-      res.status(201).json(user);
+      const result = UserValidation.register.safeParse(req.body);
+
+      if (!result.success) {
+        const errors = result.error.flatten().fieldErrors;
+  
+        // Ubah format menjadi { fieldName: "Error message" }
+        const simplifiedErrors = Object.fromEntries(
+          Object.entries(errors).map(([key, value]) => [key, value?.[0] || 'Invalid value'])
+        );
+  
+        res.status(400).json({ errors: simplifiedErrors });
+      }
+
+      const newUser = await UserService.register(req.body);
+      res.json(newUser);
     } catch (error) {
-      res.status(500).json({ message: "Failed to create user" });
+      next(error);
+    }
+  }
+
+  static async account(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = UserValidation.updateAccount.safeParse(req.body);
+
+      if (!result.success) {
+        const errors = result.error.flatten().fieldErrors;
+  
+        // Ubah format menjadi { fieldName: "Error message" }
+        const simplifiedErrors = Object.fromEntries(
+          Object.entries(errors).map(([key, value]) => [key, value?.[0] || 'Invalid value'])
+        );
+  
+        res.status(400).json({ errors: simplifiedErrors });
+      }
+
+      const newUser = await UserService.account(req.body);
+      res.json(newUser);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async changePassword(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = UserValidation.password.safeParse(req.body);
+
+      if (!result.success) {
+        const errors = result.error.flatten().fieldErrors;
+  
+        // Ubah format menjadi { fieldName: "Error message" }
+        const simplifiedErrors = Object.fromEntries(
+          Object.entries(errors).map(([key, value]) => [key, value?.[0] || 'Invalid value'])
+        );
+  
+        res.status(400).json({ errors: simplifiedErrors });
+      }
+
+      const newUser = await UserService.changePassword(req.body);
+      res.json(newUser);
+    } catch (error) {
+      next(error);
     }
   }
 }
-
-export default new UserController();
