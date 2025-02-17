@@ -18,13 +18,9 @@ export class UserController {
   
         res.status(400).json({ errors: simplifiedErrors });
       }
-
-      const token = await UserService.login(req.body);
-      if (!token) {
-        res.status(401).json({ errors: "Email atau password salah" });
-      }
       
-      res.json({ token });
+      const response = await UserService.login(req.body);
+      res.json({ token: response.token, ...response.user });
     } catch (error) {
       next(error);
     }
@@ -32,21 +28,14 @@ export class UserController {
 
   static async logout(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = UserValidation.logout.safeParse(req.body);
-
-      if (!result.success) {
-        const errors = result.error.flatten().fieldErrors;
-  
-        // Ubah format menjadi { fieldName: "Error message" }
-        const simplifiedErrors = Object.fromEntries(
-          Object.entries(errors).map(([key, value]) => [key, value?.[0] || 'Invalid value'])
-        );
-  
-        res.status(400).json({ errors: simplifiedErrors });
+      // Mengambil Authorization Header
+      const refreshToken = req.header("Authorization")?.split(" ")[1];
+      if (!refreshToken) {
+        res.status(401).json({ errors: "Unauthorized: No token provided" });
+        return;
       }
 
-      const response = await UserService.logout(req.body);
-      
+      const response = await UserService.logout(refreshToken);
       res.json(response);
     } catch (error) {
       next(error);
