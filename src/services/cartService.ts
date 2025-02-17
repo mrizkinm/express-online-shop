@@ -1,10 +1,10 @@
 import prisma from "../config/prisma";
 
-class CartService {
+export class CartService {
  
-  async getCart(req: { customerId: string }) {
+  static async getCart(customerId: string) {
     const carts = await prisma.cart.findMany({
-      where: { customerId: parseInt(req.customerId) },
+      where: { customerId: parseInt(customerId) },
       include: {
         product: {
           include: {
@@ -17,17 +17,28 @@ class CartService {
     return carts;
   }
 
-  async removeCart(req: { customerId: number }) {
+  static async removeCart(req: { customerId: number, productId: number }) {
+    const cart = await prisma.cart.delete({
+      where: {
+        customerId_productId: {
+          customerId: req.customerId,
+          productId: req.productId
+        }
+      },
+    });
+    return cart;
+  }
+
+  static async removeAllCart(req: { customerId: number }) {
     const cart = await prisma.cart.deleteMany({
       where: {
         customerId: req.customerId
       }
     });
-
     return cart;
   }
 
-  async insertCart(req: { customerId: number, productId: number, quantity: number }) {
+  static async insertCart(req: { customerId: number, productId: number, quantity: number }) {
     const cart = await prisma.cart.upsert({
       where: {
         customerId_productId: {
@@ -49,19 +60,4 @@ class CartService {
 
     return cart;
   }
-
-  async removeAllCart(req: { customerId: number, productId: number }) {
-    const cart = await prisma.cart.delete({
-      where: {
-        customerId_productId: {
-          customerId: req.customerId,
-          productId: req.productId
-        }
-      },
-    });
-
-    return cart;
-  }
 }
-
-export default new CartService();
