@@ -12,8 +12,10 @@ import limiter from "./middlewares/limiter";
 import helmet from "helmet";
 import xssClean from "xss-clean";
 import sanitizeMiddleware from "./middlewares/sanitizeMiddleware";
+import { setupSwagger } from "./config/swagger";
 
 const app = express();
+setupSwagger(app);
 
 // Middleware
 app.use(cors({ origin: 'http://localhost:3000' }));
