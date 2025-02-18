@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 import userRoute from "./routes/userRoute";
 import cartRoute from "./routes/cartRoute";
@@ -36,5 +36,9 @@ app.use("/api/order", orderRoute);
 
 // Error Handling Middleware
 app.use(errorMiddleware);
+
+app.get("/", (req: Request, res: Response) => {
+  res.status(403).json({ errors: "Forbidden" });
+});
 
 export default app;
