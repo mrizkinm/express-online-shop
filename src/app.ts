@@ -18,7 +18,7 @@ const app = express();
 setupSwagger(app);
 
 // Middleware
-app.use(cors({ origin: 'http://localhost:3000' }));
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(xssClean());
 app.use(sanitizeMiddleware);
 app.use(express.json());
