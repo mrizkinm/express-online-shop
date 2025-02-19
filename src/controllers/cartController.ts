@@ -3,14 +3,14 @@ import { CartService } from "../services/cartService";
 
 export class CartController {
 
-  static async getCart(req: Request, res: Response, next: NextFunction) {
+  static async getCustomerCart(req: Request, res: Response, next: NextFunction) {
     try {
       const customerId = req.params.id;
       if (!customerId) {
         res.status(400).json({ errors: "Invalid input" });
       }
 
-      const carts = await CartService.getCart(customerId);
+      const carts = await CartService.getCustomerCart(customerId);
       res.json(carts);
     } catch (error) {
       next(error);
@@ -25,7 +25,7 @@ export class CartController {
       }
 
       await CartService.removeCart(req.body);
-      res.status(200).json({
+      res.json({
         message: "Item removed from cart"
       });
     } catch (error) {
@@ -41,7 +41,7 @@ export class CartController {
       }
 
       await CartService.removeAllCart(req.body);
-      res.status(200).json({
+      res.json({
         message: "Item removed from cart"
       });
     } catch (error) {
