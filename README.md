@@ -13,6 +13,8 @@ This application is a REST API developed using Express and TypeScript for an exa
 - Product management
 - User authentication and authorization
 - Order processing
+- Midtrans payment method
+- Documentation using Swagger UI
 
 ## Requirements
 Make sure you have installed:
@@ -53,38 +55,9 @@ yarn build
 yarn start
 ```
 
-<!-- ## Project Structure
-```
-├── src/
-│   ├── config/
-│   ├── controllers/
-│   ├── errors/
-│   ├── middlewares/
-│   ├── routes/
-│   ├── seeds/
-│   ├── services/
-│   ├── validations/
-│   ├── app.ts
-│   ├── server.ts
-├── prisma/
-│   ├── (schema.prisma - Not included in repo)
-├── .env.example
-├── package-lock.json
-├── package.json
-├── README.md
-├── tsconfig.json
-``` -->
+## REST API Documentation
+To view the Swagger UI REST API documentation, please go to http://localhost:{PORT}/api-docs
 
-<!-- ## API Endpoints
-Example API endpoints:
-- `GET /api/v1/products` - Fetch a list of products
-- `POST /api/v1/products` - Create a new product
-- `PUT /api/v1/products/:id` - Update a product by ID
-- `DELETE /api/v1/products/:id` - Delete a product by ID
-- `POST /api/v1/auth/register` - User registration
-- `POST /api/v1/auth/login` - User login
-- `GET /api/v1/orders` - Fetch user orders
-- `POST /api/v1/orders` - Create a new order -->
 
 ## Technologies Used
 - [Express.js](https://expressjs.com/)
@@ -97,6 +70,8 @@ Example API endpoints:
 - [Helmet](https://helmetjs.github.io/) (for security)
 - [express-rate-limit](https://www.npmjs.com/package/express-rate-limit) (for rate limiting)
 - [xss-clean](https://www.npmjs.com/package/xss-clean) (to prevent XSS attacks)
+- [midtrans-client](https://www.npmjs.com/package/midtrans-client) (payment method)
+- [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express) (documentation)
 
 ## Contact
 For any questions or to obtain the Prisma schema, please contact the author.
