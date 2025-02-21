@@ -8,6 +8,14 @@ export class UserService {
   static async login(req: { email: string, password: string }) {
     const user = await prisma.customer.findUnique({
       where: { email: req.email },
+      select: {
+        id: true,
+        name: true,
+        address: true,
+        phone: true,
+        email: true,
+        password: true
+      }
     });
 
     if (!user || !(await bcrypt.compare(req.password, user.password))) {
@@ -24,7 +32,7 @@ export class UserService {
       }
     });
     
-    const { password, token, ...userWithoutPass } = user;
+    const { password, ...userWithoutPass } = user;
     return { token: tokenJwt, user: userWithoutPass };
   }
 
@@ -42,7 +50,7 @@ export class UserService {
       data: { token: null },
     });
   
-    return { message: 'Logout berhasil' };
+    return { message: 'Logout successful' };
   }
 
   static async register(req: { name: string, phone: string, email: string, address: string, password: string}) {
