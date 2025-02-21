@@ -60,12 +60,15 @@ export class ProductService {
       prisma.product.count({ where }),
     ]);
 
+    const currentTime = new Date().toISOString();
+
     return {
+      time: currentTime,
       data: products,
       total,
       page,
       limit,
-      totalPages: Math.ceil(total / limit),
+      offset: skip
     };
   }
 
