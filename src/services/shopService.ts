@@ -6,6 +6,14 @@ export class ShopService {
     const shop = await prisma.shop.findUnique({
       where: {
         id: 1
+      },
+      select: {
+        name: true,
+        address: true,
+        phone: true,
+        email: true,
+        description: true,
+        image: true 
       }
     })
 
