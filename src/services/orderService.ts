@@ -18,7 +18,7 @@ export class OrderService {
 
   static async getOrder(customerId: string) {
     if (isNaN(Number(customerId))) {
-      throw new ResponseError(400, "Invalid customer ID");
+      throw new ResponseError(400, "Customer ID is required");
     }
     const orders = await prisma.order.findMany({
       where: { customerId: parseInt(customerId) },
@@ -33,6 +33,11 @@ export class OrderService {
         createdAt: 'desc'
       }
     });
+    
+    if (!orders) {
+      throw new ResponseError(404, "No orders found for this customer");
+    }
+
     return { 
       data: orders, 
       total: orders.length 
@@ -212,7 +217,7 @@ export class OrderService {
     const snapResponse = await this.apiClient.createTransaction(snapData);
     
     // Save the snap token in the order record
-    const updatedOrder = await prisma.order.update({
+    await prisma.order.update({
       where: { id },
       data: {
         snapToken: snapResponse.token, // Save snapToken to the order
