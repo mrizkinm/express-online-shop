@@ -10,6 +10,7 @@ This application is a REST API developed using Express and TypeScript for an exa
 - Input validation using Zod
 - Database access via Prisma ORM
 - Rate limiting and sanitization for security
+- Logging using Winston
 - Product management
 - User authentication and authorization
 - Order processing
@@ -72,6 +73,7 @@ To view the Swagger UI REST API documentation, please go to http://localhost:{PO
 - [xss-clean](https://www.npmjs.com/package/xss-clean) (to prevent XSS attacks)
 - [midtrans-client](https://www.npmjs.com/package/midtrans-client) (payment method)
 - [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express) (documentation)
+- [winston](https://www.npmjs.com/package/winston) (for logging)
 
 ## Contact
 For any questions or to obtain the Prisma schema, please contact the author.
