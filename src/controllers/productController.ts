@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from "express";
 import { ProductService } from "../services/productService";
+import { ResponseError } from "../errors/responseError";
 
 export class ProductController {
   static async getDetailProduct(req: Request, res: Response, next: NextFunction) {
     try {
       const productId = req.params.id;
       if (!productId) {
-        res.status(400).json({ errors: "Invalid input" });
+        throw new ResponseError(400, "Invalid input");
       }
 
       const product = await ProductService.getDetailProduct(productId);

@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { CartService } from "../services/cartService";
+import { ResponseError } from "../errors/responseError";
 
 export class CartController {
 
@@ -7,7 +8,7 @@ export class CartController {
     try {
       const customerId = req.params.id;
       if (!customerId) {
-        res.status(400).json({ errors: "Invalid input" });
+        throw new ResponseError(400, "Invalid input");
       }
 
       const carts = await CartService.getCustomerCart(customerId);
@@ -21,13 +22,11 @@ export class CartController {
     try {
       const { customerId, productId } = await req.body;
       if (!customerId || !productId) {
-        res.status(400).json({ errors: "Invalid input" });
+        throw new ResponseError(400, "Invalid input");
       }
 
       await CartService.removeCart(req.body);
-      res.json({
-        message: "Item removed from cart"
-      });
+      res.json({ message: "Item removed from cart" });
     } catch (error) {
       next(error);
     }
@@ -37,13 +36,11 @@ export class CartController {
     try {
       const { customerId } = await req.body;
       if (!customerId) {
-        res.status(400).json({ errors: "Invalid input" });
+        throw new ResponseError(400, "Invalid input");
       }
 
       await CartService.removeAllCart(req.body);
-      res.json({
-        message: "Item removed from cart"
-      });
+      res.json({ message: "Item removed from cart" });
     } catch (error) {
       next(error);
     }
@@ -53,7 +50,7 @@ export class CartController {
     try {
       const { customerId, productId } = await req.body;
       if (!customerId || !productId) {
-        res.status(400).json({ errors: "Invalid input" });
+        throw new ResponseError(400, "Invalid input");
       }
       const carts = await CartService.insertCart(req.body);
       res.json(carts);

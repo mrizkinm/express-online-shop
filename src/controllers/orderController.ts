@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { OrderService } from "../services/orderService";
+import { ResponseError } from "../errors/responseError";
 
 export class OrderController {
 
@@ -7,7 +8,7 @@ export class OrderController {
     try {
       const customerId = req.params.id;
       if (!customerId) {
-        res.status(400).json({ errors: "Invalid input" });
+        throw new ResponseError(400, "Invalid input");
       }
 
       const carts = await OrderService.getOrder(customerId);
